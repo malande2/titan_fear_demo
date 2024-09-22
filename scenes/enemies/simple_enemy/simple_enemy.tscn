@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://bpsgoe0g12w7o"]
 
-[ext_resource type="Script" path="res://scripts/enemies/simple_enemy/simple_enemy.gd" id="1_683ya"]
+[ext_resource type="Script" path="res://scenes/enemies/simple_enemy/simple_enemy.gd" id="1_683ya"]
 [ext_resource type="Texture2D" uid="uid://ch37opvb72vmc" path="res://sprites/enemies/simple_enemy.png" id="1_gyuel"]
 [ext_resource type="Script" path="res://scripts/fsm/finiste_state_machine.gd" id="2_ipbt0"]
-[ext_resource type="Script" path="res://scripts/enemies/simple_enemy/idle_state.gd" id="3_78rgl"]
-[ext_resource type="Script" path="res://scripts/enemies/simple_enemy/follow_state.gd" id="4_8w1ch"]
+[ext_resource type="Script" path="res://scenes/enemies/simple_enemy/fsm/idle_state.gd" id="3_78rgl"]
+[ext_resource type="Script" path="res://scenes/enemies/simple_enemy/fsm/follow_state.gd" id="4_8w1ch"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7qa1l"]
 

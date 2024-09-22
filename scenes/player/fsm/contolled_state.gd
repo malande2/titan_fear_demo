@@ -3,18 +3,21 @@ class_name ControlledState
 
 @export var player: Player
 
+@onready var shot_timer = %ShotCooldown
+
 const SPEED = 100.0
 const PUSH_FORCE = 80.0
 
-const bullet_path = preload("res://scenes/projectiles/regular_bullet.tscn")
+const bullet_path = preload("res://scenes/projectiles/regular/regular_bullet.tscn")
 
 func update(delta: float):
-	if Input.is_action_just_pressed("fire"):
+	if Input.is_action_just_pressed("fire") and shot_timer.is_stopped():
 		var bullet = bullet_path.instantiate() as RegularBullet
 		var pos: Vector2 = player.gun_position.global_position
 		bullet.position = pos
 		bullet.direction = (player.get_global_mouse_position() - pos).normalized()
 		player.get_parent().add_child(bullet)
+		shot_timer.start()
 
 func physics_update(delta: float):
 	var mouse_position = player.get_global_mouse_position()

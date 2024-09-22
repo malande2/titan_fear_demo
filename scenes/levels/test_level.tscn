@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://ljoor4cojxck" path="res://scenes/player/player.tscn" id="1_ugo6r"]
 [ext_resource type="Texture2D" uid="uid://boa58uurjlyqv" path="res://sprites/levels/test level.png" id="1_w6drm"]
 [ext_resource type="PackedScene" uid="uid://cstmhtkbndw8k" path="res://scenes/items/box.tscn" id="2_5xkgo"]
-[ext_resource type="PackedScene" uid="uid://bpsgoe0g12w7o" path="res://scenes/enemies/simple_enemy.tscn" id="4_nnh5x"]
+[ext_resource type="PackedScene" uid="uid://bpsgoe0g12w7o" path="res://scenes/enemies/simple_enemy/simple_enemy.tscn" id="4_nnh5x"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_tni5a"]
 vertices = PackedVector2Array(741, 309, 50, 309, 50, 50, 741, 50)

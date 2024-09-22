@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://ljoor4cojxck"]
 
-[ext_resource type="Script" path="res://scripts/player/player.gd" id="1_eimvh"]
+[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_eimvh"]
 [ext_resource type="Texture2D" uid="uid://lttcw3qomwtn" path="res://sprites/player/player.png" id="1_mfm60"]
 [ext_resource type="Script" path="res://scripts/fsm/finiste_state_machine.gd" id="3_7i372"]
-[ext_resource type="Script" path="res://scripts/player/contolled_state.gd" id="4_owe3u"]
+[ext_resource type="Script" path="res://scenes/player/fsm/contolled_state.gd" id="4_owe3u"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_s6xjd"]
 
@@ -28,3 +28,7 @@ player = NodePath("../..")
 
 [node name="GunPosition" type="Marker2D" parent="."]
 position = Vector2(13, -8)
+
+[node name="ShotCooldown" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
