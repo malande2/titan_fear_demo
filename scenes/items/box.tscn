@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://cstmhtkbndw8k"]
+
+[ext_resource type="Texture2D" uid="uid://byule3nx76mkf" path="res://sprites/items/box_metal.png" id="1_j3f40"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_kk3dy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_albbh"]
+size = Vector2(27, 27)
+
+[node name="Box" type="RigidBody2D"]
+collision_layer = 4
+collision_mask = 39
+mass = 10.0
+physics_material_override = SubResource("PhysicsMaterial_kk3dy")
+linear_damp = 10.0
+angular_damp = 1.0
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_j3f40")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2.08165e-12, 2.08165e-12)
+shape = SubResource("RectangleShape2D_albbh")
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+radius = 21.0
+avoidance_layers = 2

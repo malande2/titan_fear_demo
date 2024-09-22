@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://ljoor4cojxck"]
+
+[ext_resource type="Script" path="res://scripts/player/player.gd" id="1_eimvh"]
+[ext_resource type="Texture2D" uid="uid://lttcw3qomwtn" path="res://sprites/player/player.png" id="1_mfm60"]
+[ext_resource type="Script" path="res://scripts/fsm/finiste_state_machine.gd" id="3_7i372"]
+[ext_resource type="Script" path="res://scripts/player/contolled_state.gd" id="4_owe3u"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_s6xjd"]
+
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
+collision_mask = 54
+motion_mode = 1
+script = ExtResource("1_eimvh")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_mfm60")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_s6xjd")
+
+[node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_7i372")
+initial_state = NodePath("ControlledState")
+
+[node name="ControlledState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("player")]
+script = ExtResource("4_owe3u")
+player = NodePath("../..")
+
+[node name="GunPosition" type="Marker2D" parent="."]
+position = Vector2(13, -8)

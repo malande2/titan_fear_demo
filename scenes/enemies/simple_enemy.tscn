@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://bpsgoe0g12w7o"]
+
+[ext_resource type="Script" path="res://scripts/enemies/simple_enemy/simple_enemy.gd" id="1_683ya"]
+[ext_resource type="Texture2D" uid="uid://ch37opvb72vmc" path="res://sprites/enemies/simple_enemy.png" id="1_gyuel"]
+[ext_resource type="Script" path="res://scripts/fsm/finiste_state_machine.gd" id="2_ipbt0"]
+[ext_resource type="Script" path="res://scripts/enemies/simple_enemy/idle_state.gd" id="3_78rgl"]
+[ext_resource type="Script" path="res://scripts/enemies/simple_enemy/follow_state.gd" id="4_8w1ch"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7qa1l"]
+
+[node name="SimpleEnemy" type="CharacterBody2D"]
+collision_layer = 32
+collision_mask = 47
+motion_mode = 1
+script = ExtResource("1_683ya")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_gyuel")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_7qa1l")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 10.0
+target_desired_distance = 31.0
+path_postprocessing = 1
+avoidance_enabled = true
+neighbor_distance = 100.0
+avoidance_layers = 4
+avoidance_mask = 7
+debug_use_custom = true
+debug_path_custom_color = Color(1, 0, 0, 1)
+
+[node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("2_ipbt0")
+initial_state = NodePath("idle")
+
+[node name="idle" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("enemy")]
+script = ExtResource("3_78rgl")
+enemy = NodePath("../..")
+
+[node name="follow" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("enemy")]
+script = ExtResource("4_8w1ch")
+enemy = NodePath("../..")
