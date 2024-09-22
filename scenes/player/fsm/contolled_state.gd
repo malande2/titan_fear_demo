@@ -15,7 +15,7 @@ func update(delta: float):
 		var bullet = bullet_path.instantiate() as RegularBullet
 		var pos: Vector2 = player.gun_position.global_position
 		bullet.position = pos
-		bullet.direction = (player.get_global_mouse_position() - pos).normalized()
+		bullet.direction = player.gun_position.global_position.direction_to(player.get_global_mouse_position())
 		player.get_parent().add_child(bullet)
 		shot_timer.start()
 

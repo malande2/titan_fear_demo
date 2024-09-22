@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://bpsgoe0g12w7o"]
 
 [ext_resource type="Script" path="res://scenes/enemies/simple_enemy/simple_enemy.gd" id="1_683ya"]
-[ext_resource type="Texture2D" uid="uid://ch37opvb72vmc" path="res://sprites/enemies/simple_enemy.png" id="1_gyuel"]
+[ext_resource type="Texture2D" uid="uid://dwifq7ux3pifw" path="res://sprites/enemies/robot.png" id="2_87y0m"]
 [ext_resource type="Script" path="res://scripts/fsm/finiste_state_machine.gd" id="2_ipbt0"]
 [ext_resource type="Script" path="res://scenes/enemies/simple_enemy/fsm/idle_state.gd" id="3_78rgl"]
 [ext_resource type="Script" path="res://scenes/enemies/simple_enemy/fsm/follow_state.gd" id="4_8w1ch"]
@@ -12,17 +12,20 @@
 
 [node name="SimpleEnemy" type="CharacterBody2D"]
 collision_layer = 32
-collision_mask = 47
+collision_mask = 39
 motion_mode = 1
 script = ExtResource("1_683ya")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_gyuel")
+position = Vector2(1.19209e-07, -0.5)
+scale = Vector2(0.685714, 0.72093)
+texture = ExtResource("2_87y0m")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_7qa1l")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+unique_name_in_owner = true
 path_desired_distance = 10.0
 target_desired_distance = 31.0
 path_postprocessing = 1

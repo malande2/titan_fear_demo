@@ -44,7 +44,7 @@ navigation_polygon = SubResource("NavigationPolygon_tni5a")
 
 [node name="wall1" type="StaticBody2D" parent="NavigationRegion2D"]
 collision_layer = 2
-collision_mask = 5
+collision_mask = 29
 physics_material_override = SubResource("PhysicsMaterial_a861x")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationRegion2D/wall1"]
@@ -53,7 +53,7 @@ shape = SubResource("RectangleShape2D_00qcw")
 
 [node name="wall2" type="StaticBody2D" parent="NavigationRegion2D"]
 collision_layer = 2
-collision_mask = 5
+collision_mask = 29
 physics_material_override = SubResource("PhysicsMaterial_prnse")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationRegion2D/wall2"]
@@ -62,7 +62,7 @@ shape = SubResource("RectangleShape2D_ra4wh")
 
 [node name="wall3" type="StaticBody2D" parent="NavigationRegion2D"]
 collision_layer = 2
-collision_mask = 5
+collision_mask = 29
 physics_material_override = SubResource("PhysicsMaterial_vskoh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationRegion2D/wall3"]
@@ -71,7 +71,7 @@ shape = SubResource("RectangleShape2D_g5i0d")
 
 [node name="wall4" type="StaticBody2D" parent="NavigationRegion2D"]
 collision_layer = 2
-collision_mask = 5
+collision_mask = 29
 physics_material_override = SubResource("PhysicsMaterial_t4h54")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationRegion2D/wall4"]

@@ -1,4 +1,4 @@
-extends Node2D
+extends RigidBody2D
 class_name RegularBullet
 
 @export var direction: Vector2 = Vector2.ONE
@@ -6,9 +6,10 @@ class_name RegularBullet
 
 func _ready():
 	rotate(direction.angle() + PI * 0.5)
+	apply_central_impulse(direction * velocity)
 
-func _physics_process(delta):
-	position += direction * velocity * delta
+func _on_hit_box_component_damage_done(damage):
+	queue_free()
 
-func _on_hit_box_component_body_entered(body):
+func _on_body_entered(body):
 	queue_free()
