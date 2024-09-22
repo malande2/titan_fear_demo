@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://ljoor4cojxck"]
+[gd_scene load_steps=7 format=3 uid="uid://ljoor4cojxck"]
 
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_eimvh"]
 [ext_resource type="Texture2D" uid="uid://cqe84clywllqk" path="res://sprites/player/player.png" id="2_otl63"]
 [ext_resource type="Script" path="res://scripts/fsm/finiste_state_machine.gd" id="3_7i372"]
 [ext_resource type="Script" path="res://scenes/player/fsm/contolled_state.gd" id="4_owe3u"]
+[ext_resource type="Script" path="res://scenes/player/fsm/roll_state.gd" id="5_m7n2t"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_s6xjd"]
 radius = 8.0
@@ -23,10 +24,14 @@ shape = SubResource("CapsuleShape2D_s6xjd")
 
 [node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_7i372")
-initial_state = NodePath("ControlledState")
+initial_state = NodePath("Controlled")
 
-[node name="ControlledState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("player")]
+[node name="Controlled" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("player")]
 script = ExtResource("4_owe3u")
+player = NodePath("../..")
+
+[node name="Roll" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("player")]
+script = ExtResource("5_m7n2t")
 player = NodePath("../..")
 
 [node name="GunPosition" type="Marker2D" parent="."]

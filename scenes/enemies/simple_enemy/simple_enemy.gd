@@ -5,3 +5,6 @@ class_name SimpleEnemy
 
 func _on_health_component_health_depleated():
 	queue_free()
+
+func physics_update(delta: float):
+	pass
