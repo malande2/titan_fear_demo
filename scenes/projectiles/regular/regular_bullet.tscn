@@ -1,21 +1,26 @@
-[gd_scene load_steps=4 format=3 uid="uid://dv4m0qnfacq7i"]
+[gd_scene load_steps=5 format=3 uid="uid://dv4m0qnfacq7i"]
 
 [ext_resource type="Script" path="res://scenes/projectiles/regular/regular_bullet.gd" id="1_h1dgt"]
 [ext_resource type="Texture2D" uid="uid://b6djpwqr6i7oq" path="res://sprites/projectiles/bullet.png" id="1_p45yt"]
+[ext_resource type="Script" path="res://scripts/components/hit_box_component.gd" id="3_xft4a"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jp8ug"]
 radius = 4.0
 
-[node name="RegularBullet" type="Area2D"]
-collision_layer = 8
-collision_mask = 34
+[node name="RegularBullet" type="Node2D"]
 script = ExtResource("1_h1dgt")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_p45yt")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="HitBoxComponent" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 34
+script = ExtResource("3_xft4a")
+damage = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxComponent"]
 position = Vector2(0, -3)
 shape = SubResource("CircleShape2D_jp8ug")
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_entered" from="HitBoxComponent" to="." method="_on_hit_box_component_body_entered"]

@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://bpsgoe0g12w7o"]
+[gd_scene load_steps=9 format=3 uid="uid://bpsgoe0g12w7o"]
 
 [ext_resource type="Script" path="res://scenes/enemies/simple_enemy/simple_enemy.gd" id="1_683ya"]
 [ext_resource type="Texture2D" uid="uid://ch37opvb72vmc" path="res://sprites/enemies/simple_enemy.png" id="1_gyuel"]
 [ext_resource type="Script" path="res://scripts/fsm/finiste_state_machine.gd" id="2_ipbt0"]
 [ext_resource type="Script" path="res://scenes/enemies/simple_enemy/fsm/idle_state.gd" id="3_78rgl"]
 [ext_resource type="Script" path="res://scenes/enemies/simple_enemy/fsm/follow_state.gd" id="4_8w1ch"]
+[ext_resource type="Script" path="res://scripts/components/health_component.gd" id="6_pjmx8"]
+[ext_resource type="Script" path="res://scripts/components/hurt_box_component.gd" id="7_d0iuv"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7qa1l"]
 
@@ -42,3 +44,19 @@ enemy = NodePath("../..")
 [node name="follow" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("enemy")]
 script = ExtResource("4_8w1ch")
 enemy = NodePath("../..")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("6_pjmx8")
+max_health = 20
+
+[node name="HurtBoxComponent" type="Area2D" parent="." node_paths=PackedStringArray("health")]
+unique_name_in_owner = true
+collision_layer = 32
+collision_mask = 8
+script = ExtResource("7_d0iuv")
+health = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxComponent"]
+shape = SubResource("CapsuleShape2D_7qa1l")
+
+[connection signal="health_depleated" from="HealthComponent" to="." method="_on_health_component_health_depleated"]

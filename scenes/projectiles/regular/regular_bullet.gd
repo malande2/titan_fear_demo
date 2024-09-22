@@ -1,4 +1,4 @@
-extends Area2D
+extends Node2D
 class_name RegularBullet
 
 @export var direction: Vector2 = Vector2.ONE
@@ -10,6 +10,5 @@ func _ready():
 func _physics_process(delta):
 	position += direction * velocity * delta
 
-
-func _on_body_entered(body):
+func _on_hit_box_component_body_entered(body):
 	queue_free()
