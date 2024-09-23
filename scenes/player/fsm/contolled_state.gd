@@ -5,7 +5,7 @@ class_name ControlledState
 
 @onready var shot_timer = %ShotCooldown
 
-const SPEED = 100.0
+const SPEED = 80.0
 
 const bullet_path = preload("res://scenes/projectiles/regular/regular_bullet.tscn")
 

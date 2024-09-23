@@ -24,5 +24,5 @@ position = Vector2(2.08165e-12, 2.08165e-12)
 shape = SubResource("RectangleShape2D_albbh")
 
 [node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
-radius = 21.0
+radius = 19.0
 avoidance_layers = 2

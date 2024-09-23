@@ -22,4 +22,3 @@ func physics_update(delta: float):
 	player.move_and_slide()
 	if player.position.distance_to(start_position) > DISTANCE or player.get_slide_collision_count() > 0:
 		Transitioned.emit(self, "controlled")
-		
