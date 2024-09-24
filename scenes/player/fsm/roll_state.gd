@@ -11,7 +11,10 @@ const DISTANCE = 40
 
 func enter():
 	start_position = player.position
-	direction = player.position.direction_to(player.get_global_mouse_position())
+	if player.velocity.is_zero_approx():
+		direction = player.position.direction_to(player.get_global_mouse_position())
+	else:
+		direction = player.velocity.normalized()
 	player.velocity = direction * SPEED
 	# disable a hurt box component
 
