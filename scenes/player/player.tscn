@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ljoor4cojxck"]
+[gd_scene load_steps=9 format=3 uid="uid://ljoor4cojxck"]
 
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_eimvh"]
 [ext_resource type="Texture2D" uid="uid://cqe84clywllqk" path="res://sprites/player/player.png" id="2_otl63"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scenes/player/fsm/contolled_state.gd" id="4_owe3u"]
 [ext_resource type="Script" path="res://scenes/player/fsm/roll_state.gd" id="5_m7n2t"]
 [ext_resource type="PackedScene" uid="uid://bfo3snufibcum" path="res://scenes/player/weapons/pistol/pistol.tscn" id="6_3ohll"]
+[ext_resource type="PackedScene" uid="uid://bo4euhqvcrdc" path="res://scenes/player/weapons/machete/machete.tscn" id="7_s5fpw"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_s6xjd"]
 radius = 8.0
@@ -39,3 +40,11 @@ player = NodePath("../..")
 unique_name_in_owner = true
 position = Vector2(17, 6)
 scale = Vector2(0.67, 0.67)
+
+[node name="Machete" parent="." instance=ExtResource("7_s5fpw")]
+position = Vector2(14, 7)
+scale = Vector2(0.67, 0.67)
+
+[node name="MeleeWeaponPosition" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(9, -23)

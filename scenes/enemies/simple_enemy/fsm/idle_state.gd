@@ -1,7 +1,7 @@
 extends State
 class_name SimpleEnemyIdle
 
-@export var enemy: CharacterBody2D
+@export var enemy: SimpleEnemy
 var player: Player
 
 @onready var hurt_box: HurtBoxComponent = %HurtBoxComponent

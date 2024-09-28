@@ -1,0 +1,84 @@
+[gd_scene load_steps=8 format=3 uid="uid://bo4euhqvcrdc"]
+
+[ext_resource type="Script" path="res://scenes/player/weapons/machete/machete.gd" id="1_r6oio"]
+[ext_resource type="Texture2D" uid="uid://bqrayu63jxrly" path="res://sprites/weapons/machete.png" id="2_sk47b"]
+[ext_resource type="Script" path="res://scripts/components/hit_box_component.gd" id="3_d8fyv"]
+
+[sub_resource type="Animation" id="Animation_w3ufo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_k7vk0"]
+resource_name = "blow"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-1.5708, 0.785398]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ejocl"]
+_data = {
+"RESET": SubResource("Animation_w3ufo"),
+"blow": SubResource("Animation_k7vk0")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s7nbo"]
+size = Vector2(34, 51)
+
+[node name="Machete" type="Node2D" node_paths=PackedStringArray("attack_timer", "reload_timer")]
+script = ExtResource("1_r6oio")
+attack_timer = NodePath("AttackTimer")
+reload_timer = NodePath("ReloadTimer")
+
+[node name="PivotPoint" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite2D" parent="PivotPoint"]
+self_modulate = Color(0.501407, 0.501406, 0.501406, 1)
+position = Vector2(23.3452, 0.0546862)
+scale = Vector2(1.4, 1)
+texture = ExtResource("2_sk47b")
+
+[node name="Blow" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+root_node = NodePath("../PivotPoint")
+libraries = {
+"": SubResource("AnimationLibrary_ejocl")
+}
+
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+
+[node name="ReloadTimer" type="Timer" parent="."]
+wait_time = 0.4
+
+[node name="HitBoxComponent" type="Area2D" parent="."]
+rotation = 3.14159
+collision_layer = 8
+collision_mask = 32
+script = ExtResource("3_d8fyv")
+damage = 7
+one_time_applicable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxComponent"]
+position = Vector2(-23, -2.50007)
+shape = SubResource("RectangleShape2D_s7nbo")

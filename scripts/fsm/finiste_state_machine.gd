@@ -11,14 +11,13 @@ func _ready():
 		if child is State:
 			states[child.name.to_lower()] = child
 			child.Transitioned.connect(on_child_transitioned)
-	
-	if initial_state != null:
-		current_state = initial_state
-		current_state.enter()
 
 
 func _process(delta):
-	if current_state != null:
+	if current_state == null:
+		current_state = initial_state
+		current_state.enter()
+	else:
 		current_state.update(delta)
 		
 func _physics_process(delta):

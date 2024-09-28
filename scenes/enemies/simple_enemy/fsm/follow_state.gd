@@ -12,6 +12,8 @@ func enter():
 
 func exit():
 	enemy.agent.velocity_computed.disconnect(_on_velocity_computed)
+	enemy.agent.target_position = enemy.position
+	_change_velocity(Vector2.ZERO)
 
 func update(delta: float):
 	enemy.agent.target_position = player.position
@@ -19,13 +21,16 @@ func update(delta: float):
 		var current_location = enemy.position
 		var next_location = enemy.agent.get_next_path_position()
 		var new_velocity = current_location.direction_to(next_location) * SPEED
-		if enemy.agent.avoidance_enabled:
-			enemy.agent.velocity = new_velocity
-		else:
-			enemy.velocity = new_velocity
+		_change_velocity(new_velocity)
 		enemy.move_and_slide()
 	
 	enemy.look_at(player.position)
+
+func _change_velocity(new_velocity: Vector2):
+	if enemy.agent.avoidance_enabled:
+		enemy.agent.velocity = new_velocity
+	else:
+		enemy.velocity = new_velocity
 
 func _on_velocity_computed(safe_velocity: Vector2):
 	enemy.velocity = safe_velocity
