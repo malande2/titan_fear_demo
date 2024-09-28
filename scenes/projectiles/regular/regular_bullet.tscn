@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://dv4m0qnfacq7i"]
 
-[ext_resource type="Script" path="res://scenes/projectiles/regular/regular_bullet.gd" id="1_h1dgt"]
+[ext_resource type="Script" path="res://scenes/projectiles/projectile.gd" id="1_bkjy5"]
 [ext_resource type="Texture2D" uid="uid://b6djpwqr6i7oq" path="res://sprites/projectiles/bullet.png" id="1_p45yt"]
 [ext_resource type="Script" path="res://scripts/components/hit_box_component.gd" id="3_xft4a"]
 
@@ -12,12 +12,15 @@ height = 12.0
 radius = 3.0
 height = 12.0
 
-[node name="RegularBullet" type="RigidBody2D"]
+[node name="RegularBullet" type="RigidBody2D" node_paths=PackedStringArray("hit_box", "screen_notifier")]
 collision_layer = 8
 collision_mask = 2
 contact_monitor = true
 max_contacts_reported = 1
-script = ExtResource("1_h1dgt")
+script = ExtResource("1_bkjy5")
+velocity = 400.0
+hit_box = NodePath("HitBoxComponent")
+screen_notifier = NodePath("VisibleOnScreenNotifier2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.75, 0.857143)
@@ -38,7 +41,3 @@ shape = SubResource("CapsuleShape2D_yhtkc")
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(0, 7)
 scale = Vector2(0.7, 0.65)
-
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="damage_done" from="HitBoxComponent" to="." method="_on_hit_box_component_damage_done"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

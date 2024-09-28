@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bfo3snufibcum"]
+
+[ext_resource type="Script" path="res://scenes/player/weapons/pistol/pistol.gd" id="1_54fe0"]
+[ext_resource type="PackedScene" uid="uid://dv4m0qnfacq7i" path="res://scenes/projectiles/regular/regular_bullet.tscn" id="2_0nr1o"]
+[ext_resource type="Texture2D" uid="uid://82ygbrc8klfk" path="res://sprites/weapons/pistol.png" id="2_nsoru"]
+
+[node name="Pistol" type="Node2D" node_paths=PackedStringArray("gunpoint", "reload_timer")]
+script = ExtResource("1_54fe0")
+gunpoint = NodePath("Marker2D")
+projectile = ExtResource("2_0nr1o")
+reload_timer = NodePath("Timer")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_nsoru")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(14, 0)
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true

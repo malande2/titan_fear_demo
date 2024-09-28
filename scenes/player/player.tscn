@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://ljoor4cojxck"]
+[gd_scene load_steps=8 format=3 uid="uid://ljoor4cojxck"]
 
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_eimvh"]
 [ext_resource type="Texture2D" uid="uid://cqe84clywllqk" path="res://sprites/player/player.png" id="2_otl63"]
 [ext_resource type="Script" path="res://scripts/fsm/finiste_state_machine.gd" id="3_7i372"]
 [ext_resource type="Script" path="res://scenes/player/fsm/contolled_state.gd" id="4_owe3u"]
 [ext_resource type="Script" path="res://scenes/player/fsm/roll_state.gd" id="5_m7n2t"]
+[ext_resource type="PackedScene" uid="uid://bfo3snufibcum" path="res://scenes/player/weapons/pistol/pistol.tscn" id="6_3ohll"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_s6xjd"]
 radius = 8.0
@@ -34,9 +35,7 @@ player = NodePath("../..")
 script = ExtResource("5_m7n2t")
 player = NodePath("../..")
 
-[node name="GunPosition" type="Marker2D" parent="."]
-position = Vector2(26, 6)
-
-[node name="ShotCooldown" type="Timer" parent="."]
+[node name="Gun" parent="." instance=ExtResource("6_3ohll")]
 unique_name_in_owner = true
-one_shot = true
+position = Vector2(17, 6)
+scale = Vector2(0.67, 0.67)

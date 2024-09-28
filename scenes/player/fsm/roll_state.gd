@@ -10,6 +10,7 @@ const SPEED = 400
 const DISTANCE = 40
 
 func enter():
+	player.set_gun_state(false)
 	start_position = player.position
 	if player.velocity.is_zero_approx():
 		direction = player.position.direction_to(player.get_global_mouse_position())
