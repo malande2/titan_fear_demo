@@ -16,6 +16,11 @@ collision_mask = 54
 motion_mode = 1
 script = ExtResource("1_eimvh")
 
+[node name="Machete" parent="." instance=ExtResource("7_s5fpw")]
+position = Vector2(12, -12)
+rotation = 0.289522
+scale = Vector2(0.67, 0.67)
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(7, -1.19209e-07)
 scale = Vector2(0.670408, 0.661628)
@@ -41,10 +46,6 @@ unique_name_in_owner = true
 position = Vector2(17, 6)
 scale = Vector2(0.67, 0.67)
 
-[node name="Machete" parent="." instance=ExtResource("7_s5fpw")]
-position = Vector2(14, 7)
-scale = Vector2(0.67, 0.67)
-
 [node name="MeleeWeaponPosition" type="Marker2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(9, -23)
+position = Vector2(12, -12)

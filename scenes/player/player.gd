@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name Player
 
 @onready var gun = %Gun
+@onready var machete = $Machete
 
 const PUSH_FORCE = 80.0
 
