@@ -16,6 +16,9 @@ func exit():
 	_change_velocity(Vector2.ZERO)
 
 func update(delta: float):
+	if enemy.health_component.health <= 0:
+		Transitioned.emit(self, "death")
+		return
 	enemy.agent.target_position = player.position
 	if !enemy.agent.is_navigation_finished():
 		var current_location = enemy.position

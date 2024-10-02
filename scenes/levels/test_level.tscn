@@ -6,9 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://bpsgoe0g12w7o" path="res://scenes/enemies/simple_enemy/simple_enemy.tscn" id="4_nnh5x"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_tni5a"]
-vertices = PackedVector2Array(741, 309, 50, 309, 50, 50, 741, 50)
+vertices = PackedVector2Array(741, 309, 43.75, 309, 43.75, 43, 741, 43)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(40, 40, 760, 40, 760, 360, 40, 360)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(33.751, 32, 753.751, 32, 753.751, 320, 33.751, 320)])
 source_geometry_group_name = &"navigation_polygon_source_group"
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_a861x"]

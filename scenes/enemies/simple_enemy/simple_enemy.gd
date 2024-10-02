@@ -4,11 +4,10 @@ class_name SimpleEnemy
 @onready var agent: NavigationAgent2D = $NavigationAgent2D
 @onready var animation_player = $AnimationPlayer
 @onready var hurt_box_component = %HurtBoxComponent
-@onready var finite_state_machine = $FiniteStateMachine
+@onready var finite_state_machine = $fsm
+@onready var health_component: HealthComponent = $HealthComponent
 
 func _on_health_component_health_depleated():
-	call_deferred("remove_child", hurt_box_component)
-	call_deferred("remove_child", finite_state_machine) # replace with a death state
 	animation_player.play("hurt")
 	animation_player.animation_finished.connect(_free_after_death)
 

@@ -13,3 +13,7 @@ func _on_area_entered(area: Area2D):
 		var damage = area.apply_damage()
 		health.damage(damage)
 		received_damage.emit(damage)
+
+func set_enabled(enabled: bool):
+	for child in get_children().filter(func (c): return c is CollisionShape2D):
+		(child as CollisionShape2D).set_deferred("disabled", !enabled)
