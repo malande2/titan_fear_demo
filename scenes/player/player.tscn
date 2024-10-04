@@ -1,20 +1,51 @@
-[gd_scene load_steps=9 format=3 uid="uid://ljoor4cojxck"]
+[gd_scene load_steps=14 format=3 uid="uid://ljoor4cojxck"]
 
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_eimvh"]
 [ext_resource type="Script" path="res://scripts/fsm/finiste_state_machine.gd" id="3_7i372"]
 [ext_resource type="Texture2D" uid="uid://bbae8x2hhjcck" path="res://sprites/player/player.png" id="3_e7pcj"]
 [ext_resource type="Script" path="res://scenes/player/fsm/contolled_state.gd" id="4_owe3u"]
 [ext_resource type="Script" path="res://scenes/player/fsm/roll_state.gd" id="5_m7n2t"]
+[ext_resource type="Script" path="res://scripts/components/health_component.gd" id="5_qnrjj"]
 [ext_resource type="PackedScene" uid="uid://bfo3snufibcum" path="res://scenes/weapons/pistol/pistol.tscn" id="6_3ohll"]
 [ext_resource type="PackedScene" uid="uid://bo4euhqvcrdc" path="res://scenes/weapons/machete/machete.tscn" id="7_s5fpw"]
+[ext_resource type="Script" path="res://scripts/components/hurt_box_component.gd" id="9_0js5x"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_s6xjd"]
 radius = 8.0
 
-[node name="Player" type="CharacterBody2D" groups=["Player"]]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_m257x"]
+radius = 8.0
+
+[sub_resource type="Animation" id="Animation_w7yoh"]
+resource_name = "hurt"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.8, 0.8, 1), Color(1, 0.6, 0.6, 1), Color(1, 0.4, 0.4, 1), Color(1, 0.2, 0.2, 1), Color(1, 0, 0, 1), Color(1, 0.2, 0.2, 1), Color(1, 0.4, 0.4, 1), Color(1, 0.6, 0.6, 1), Color(1, 0.8, 0.8, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_42t4i"]
+_data = {
+"hurt": SubResource("Animation_w7yoh")
+}
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("gun", "melee_weapon") groups=["Player"]]
 collision_mask = 54
 motion_mode = 1
 script = ExtResource("1_eimvh")
+gun = NodePath("Gun")
+melee_weapon = NodePath("Machete")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CapsuleShape2D_s6xjd")
 
 [node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_7i372")
@@ -28,18 +59,31 @@ player = NodePath("../..")
 script = ExtResource("5_m7n2t")
 player = NodePath("../..")
 
-[node name="Machete" parent="." instance=ExtResource("7_s5fpw")]
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("5_qnrjj")
+max_health = 20
+
+[node name="Machete" parent="." node_paths=PackedStringArray("attack_timer", "reload_timer") instance=ExtResource("7_s5fpw")]
 position = Vector2(9, -9)
 scale = Vector2(0.67, 0.67)
+attack_timer = NodePath("AttackTimer")
+reload_timer = NodePath("ReloadTimer")
+min_damage = 5
+max_damage = 7
 metadata/_edit_group_ = true
+
+[node name="AttackTimer" type="Timer" parent="Machete"]
+wait_time = 0.2
+one_shot = true
+
+[node name="ReloadTimer" type="Timer" parent="Machete"]
+wait_time = 0.4
+one_shot = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(1, -1)
 scale = Vector2(0.670408, 0.661628)
 texture = ExtResource("3_e7pcj")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_s6xjd")
 
 [node name="Gun" parent="." instance=ExtResource("6_3ohll")]
 unique_name_in_owner = true
@@ -49,3 +93,19 @@ scale = Vector2(0.67, 0.67)
 [node name="MeleeWeaponPosition" type="Marker2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(9, -9)
+
+[node name="HurtBoxComponent" type="Area2D" parent="." node_paths=PackedStringArray("health")]
+collision_mask = 16
+script = ExtResource("9_0js5x")
+health = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxComponent"]
+shape = SubResource("CapsuleShape2D_m257x")
+
+[node name="HurtAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_42t4i")
+}
+
+[connection signal="health_changed" from="HealthComponent" to="." method="_on_health_component_health_changed"]
+[connection signal="received_damage" from="HurtBoxComponent" to="." method="_on_hurt_box_component_received_damage"]

@@ -1,13 +1,15 @@
-[gd_scene load_steps=13 format=3 uid="uid://bpsgoe0g12w7o"]
+[gd_scene load_steps=15 format=3 uid="uid://bpsgoe0g12w7o"]
 
 [ext_resource type="Script" path="res://scenes/enemies/simple_enemy/simple_enemy.gd" id="1_683ya"]
 [ext_resource type="Texture2D" uid="uid://dwifq7ux3pifw" path="res://sprites/enemies/robot.png" id="2_87y0m"]
+[ext_resource type="PackedScene" uid="uid://bo4euhqvcrdc" path="res://scenes/weapons/machete/machete.tscn" id="2_eq27s"]
 [ext_resource type="Script" path="res://scripts/fsm/finiste_state_machine.gd" id="2_ipbt0"]
 [ext_resource type="Script" path="res://scenes/enemies/simple_enemy/fsm/idle_state.gd" id="3_78rgl"]
 [ext_resource type="Script" path="res://scenes/enemies/simple_enemy/fsm/death_state.gd" id="3_iy7yx"]
 [ext_resource type="Script" path="res://scenes/enemies/simple_enemy/fsm/follow_state.gd" id="4_8w1ch"]
 [ext_resource type="Script" path="res://scripts/components/health_component.gd" id="6_pjmx8"]
 [ext_resource type="Script" path="res://scripts/components/hurt_box_component.gd" id="7_d0iuv"]
+[ext_resource type="Script" path="res://scenes/enemies/simple_enemy/fsm/attack_state.gd" id="8_tue4o"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7qa1l"]
 
@@ -47,14 +49,31 @@ _data = {
 "hurt": SubResource("Animation_atev7")
 }
 
-[node name="SimpleEnemy" type="CharacterBody2D"]
+[node name="SimpleEnemy" type="CharacterBody2D" node_paths=PackedStringArray("melee_weapon")]
 collision_layer = 32
 collision_mask = 39
 motion_mode = 1
 script = ExtResource("1_683ya")
+melee_weapon = NodePath("Machete")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_7qa1l")
+
+[node name="Machete" parent="." node_paths=PackedStringArray("attack_timer", "reload_timer") instance=ExtResource("2_eq27s")]
+position = Vector2(8, -10)
+rotation = 0.353963
+scale = Vector2(0.67, 0.67)
+attack_timer = NodePath("AttackTimer")
+reload_timer = NodePath("ReloadTimer")
+min_damage = 1
+max_damage = 3
+
+[node name="AttackTimer" type="Timer" parent="Machete"]
+wait_time = 0.3
+one_shot = true
+
+[node name="ReloadTimer" type="Timer" parent="Machete"]
+one_shot = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(1.19209e-07, -0.5)
@@ -62,7 +81,6 @@ scale = Vector2(0.685714, 0.72093)
 texture = ExtResource("2_87y0m")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-unique_name_in_owner = true
 path_desired_distance = 10.0
 target_desired_distance = 31.0
 path_postprocessing = 1
@@ -90,12 +108,15 @@ enemy = NodePath("../..")
 script = ExtResource("3_iy7yx")
 enemy = NodePath("../..")
 
+[node name="attack" type="Node" parent="fsm" node_paths=PackedStringArray("enemy")]
+script = ExtResource("8_tue4o")
+enemy = NodePath("../..")
+
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("6_pjmx8")
 max_health = 20
 
 [node name="HurtBoxComponent" type="Area2D" parent="." node_paths=PackedStringArray("health")]
-unique_name_in_owner = true
 visible = false
 collision_layer = 32
 collision_mask = 8
@@ -105,7 +126,7 @@ health = NodePath("../HealthComponent")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxComponent"]
 shape = SubResource("CapsuleShape2D_7qa1l")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="HurtAnimation" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_qj62q")
 }

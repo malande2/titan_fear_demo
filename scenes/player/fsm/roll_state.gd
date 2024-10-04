@@ -10,17 +10,21 @@ const SPEED = 400
 const DISTANCE = 40
 
 func enter():
-	player.set_gun_state(false)
 	start_position = player.position
 	if player.velocity.is_zero_approx():
 		direction = player.position.direction_to(player.get_global_mouse_position())
 	else:
 		direction = player.velocity.normalized()
 	player.velocity = direction * SPEED
-	# disable a hurt box component
+	player.hurt_box_component.set_enabled(false)
+	player.gun.set_enabled(false)
+	player.melee_weapon.set_enabled(false)
 
 func exit():
 	player.velocity = Vector2.ZERO
+	player.hurt_box_component.set_enabled(true)
+	player.gun.set_enabled(true)
+	player.melee_weapon.set_enabled(true)
 
 func physics_update(delta: float):
 	player.move_and_slide()

@@ -35,7 +35,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_k7vk0"]
-resource_name = "blow"
+resource_name = "slash"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -46,7 +46,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.133333, 0.8, 1),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [0.0, -1.5708, 0.785398, 0.0]
+"values": [0.0, -1.22173, 0.785398, 0.0]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -64,13 +64,12 @@ tracks/1/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ejocl"]
 _data = {
 "RESET": SubResource("Animation_w3ufo"),
-"blow": SubResource("Animation_k7vk0")
+"slash": SubResource("Animation_k7vk0")
 }
 
-[node name="Machete" type="Node2D" node_paths=PackedStringArray("attack_timer", "reload_timer")]
+[node name="Machete" type="Node2D" node_paths=PackedStringArray("hit_box_component")]
 script = ExtResource("1_r6oio")
-attack_timer = NodePath("AttackTimer")
-reload_timer = NodePath("ReloadTimer")
+hit_box_component = NodePath("PivotPoint/HitBoxComponent")
 
 [node name="PivotPoint" type="Node2D" parent="."]
 skew = -1.0472
@@ -83,10 +82,9 @@ scale = Vector2(1.4, 1)
 texture = ExtResource("2_sk47b")
 
 [node name="HitBoxComponent" type="Area2D" parent="PivotPoint"]
-unique_name_in_owner = true
 rotation = -1.5708
-collision_layer = 8
-collision_mask = 32
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("3_d8fyv")
 damage = 7
 one_time_applicable = false
@@ -95,16 +93,10 @@ one_time_applicable = false
 position = Vector2(-6.55889e-05, 30.25)
 shape = SubResource("RectangleShape2D_s7nbo")
 
-[node name="Blow" type="AnimationPlayer" parent="."]
-unique_name_in_owner = true
+[node name="Animation" type="AnimationPlayer" parent="."]
 root_node = NodePath("../PivotPoint")
 libraries = {
 "": SubResource("AnimationLibrary_ejocl")
 }
 
-[node name="AttackTimer" type="Timer" parent="."]
-wait_time = 0.2
-one_shot = true
-
-[node name="ReloadTimer" type="Timer" parent="."]
-wait_time = 0.4
+[connection signal="damage_done" from="PivotPoint/HitBoxComponent" to="." method="_on_hit_box_component_damage_done"]

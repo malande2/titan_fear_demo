@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://bahksl6oxftwq"]
+
+[ext_resource type="Script" path="res://scenes/projectiles/projectile.gd" id="1_rsw1x"]
+[ext_resource type="Texture2D" uid="uid://bert8s2ehby84" path="res://sprites/projectiles/missile.png" id="2_7rs4h"]
+[ext_resource type="Script" path="res://scripts/components/hit_box_component.gd" id="3_4suxd"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dk1ok"]
+radius = 4.0
+height = 34.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ade5i"]
+radius = 4.0
+height = 34.0
+
+[node name="SniperRifleMissile" type="RigidBody2D" node_paths=PackedStringArray("hit_box", "screen_notifier")]
+collision_layer = 16
+collision_mask = 2
+script = ExtResource("1_rsw1x")
+velocity = 400.0
+hit_box = NodePath("HitBoxComponent")
+screen_notifier = NodePath("VisibleOnScreenNotifier2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_dk1ok")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_7rs4h")
+
+[node name="HitBoxComponent" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("3_4suxd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxComponent"]
+shape = SubResource("CapsuleShape2D_ade5i")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, 17)

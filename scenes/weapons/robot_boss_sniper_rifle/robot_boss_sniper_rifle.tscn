@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://clpjd4x7slyyi"]
+
+[ext_resource type="Script" path="res://scenes/weapons/robot_boss_sniper_rifle/robot_boss_sniper_rifle.gd" id="1_eh1gr"]
+[ext_resource type="PackedScene" uid="uid://bahksl6oxftwq" path="res://scenes/projectiles/sniper_rifle_missile/sniper_rifle_missile.tscn" id="2_q2sgg"]
+[ext_resource type="Texture2D" uid="uid://dbk4t6dvqwa5e" path="res://sprites/weapons/sniper_rifle.png" id="2_wrgy6"]
+
+[node name="RobotBossSniperRifle" type="Node2D" node_paths=PackedStringArray("gunpoint")]
+script = ExtResource("1_eh1gr")
+gunpoint = NodePath("Marker2D")
+projectile = ExtResource("2_q2sgg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_wrgy6")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(16, 0)
