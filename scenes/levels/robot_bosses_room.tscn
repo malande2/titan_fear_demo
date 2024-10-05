@@ -1,27 +1,59 @@
-[gd_scene load_steps=4 format=3 uid="uid://dq2deqs3yync5"]
+[gd_scene load_steps=5 format=3 uid="uid://dq2deqs3yync5"]
 
+[ext_resource type="Script" path="res://scenes/levels/robot_bosses_room.gd" id="1_73h2u"]
 [ext_resource type="PackedScene" uid="uid://ljoor4cojxck" path="res://scenes/player/player.tscn" id="1_sbl4c"]
 [ext_resource type="PackedScene" uid="uid://cuc8vme7t2efp" path="res://scenes/enemies/robot_bosses/robot_boss_sniper/robot_boss_sniper.tscn" id="2_x2jdx"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_ydmul"]
 
 [node name="RobotBossesRoom" type="Node"]
+script = ExtResource("1_73h2u")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(0.564962, 0.564962, 0.564962, 1)
-position = Vector2(486, 486)
+position = Vector2(800, 800)
 texture = SubResource("CanvasTexture_ydmul")
 region_enabled = true
 region_rect = Rect2(0, 0, 972, 972)
 
 [node name="Player" parent="." instance=ExtResource("1_sbl4c")]
-position = Vector2(28, 165)
+position = Vector2(780, 537)
+metadata/_edit_group_ = true
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 limit_left = 0
 limit_top = 0
-limit_right = 1728
-limit_bottom = 972
+limit_right = 2528
+limit_bottom = 1772
 
 [node name="RobotBossSniper" parent="." instance=ExtResource("2_x2jdx")]
-position = Vector2(330, 803)
+position = Vector2(658, 1074)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="Button" type="Button" parent="CanvasLayer/ColorRect"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -112.0
+offset_top = -72.0
+offset_right = -13.0
+offset_bottom = -9.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 40
+text = "back"
+
+[connection signal="pressed" from="CanvasLayer/ColorRect/Button" to="." method="_on_button_pressed"]

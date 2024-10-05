@@ -1,5 +1,6 @@
-[gd_scene load_steps=14 format=3 uid="uid://scy8ocujq3fa"]
+[gd_scene load_steps=15 format=3 uid="uid://scy8ocujq3fa"]
 
+[ext_resource type="Script" path="res://scenes/levels/test_level.gd" id="1_t7wie"]
 [ext_resource type="PackedScene" uid="uid://ljoor4cojxck" path="res://scenes/player/player.tscn" id="1_ugo6r"]
 [ext_resource type="Texture2D" uid="uid://boa58uurjlyqv" path="res://sprites/levels/test level.png" id="1_w6drm"]
 [ext_resource type="PackedScene" uid="uid://cstmhtkbndw8k" path="res://scenes/items/box.tscn" id="2_5xkgo"]
@@ -32,6 +33,7 @@ size = Vector2(785, 40)
 size = Vector2(40, 357)
 
 [node name="TestLevel" type="Node"]
+script = ExtResource("1_t7wie")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(574.249, 328)
@@ -104,3 +106,32 @@ position = Vector2(767, 367)
 
 [node name="SimpleEnemy4" parent="." instance=ExtResource("4_nnh5x")]
 position = Vector2(811, 377)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="Button" type="Button" parent="CanvasLayer/ColorRect"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -112.0
+offset_top = -72.0
+offset_right = -13.0
+offset_bottom = -9.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 40
+text = "back"
+
+[connection signal="pressed" from="CanvasLayer/ColorRect/Button" to="." method="_on_button_pressed"]
