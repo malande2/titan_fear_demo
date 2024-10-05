@@ -53,6 +53,7 @@ _data = {
 collision_layer = 32
 collision_mask = 39
 motion_mode = 1
+wall_min_slide_angle = 0.0
 script = ExtResource("1_683ya")
 melee_weapon = NodePath("Machete")
 
@@ -86,9 +87,10 @@ target_desired_distance = 31.0
 path_postprocessing = 1
 avoidance_enabled = true
 neighbor_distance = 100.0
-time_horizon_agents = 5.0
+max_speed = 200.0
 avoidance_layers = 4
 avoidance_mask = 7
+debug_enabled = true
 debug_use_custom = true
 debug_path_custom_color = Color(1, 0, 0, 1)
 

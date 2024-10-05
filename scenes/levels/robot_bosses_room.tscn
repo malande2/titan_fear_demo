@@ -1,10 +1,27 @@
-[gd_scene load_steps=5 format=3 uid="uid://dq2deqs3yync5"]
+[gd_scene load_steps=10 format=3 uid="uid://dq2deqs3yync5"]
 
 [ext_resource type="Script" path="res://scenes/levels/robot_bosses_room.gd" id="1_73h2u"]
 [ext_resource type="PackedScene" uid="uid://ljoor4cojxck" path="res://scenes/player/player.tscn" id="1_sbl4c"]
 [ext_resource type="PackedScene" uid="uid://cuc8vme7t2efp" path="res://scenes/enemies/robot_bosses/robot_boss_sniper/robot_boss_sniper.tscn" id="2_x2jdx"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_ydmul"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_3o758"]
+vertices = PackedVector2Array(1249, 1249, 351, 1249, 351, 351, 1249, 351)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(314, 314, 1286, 314, 1286, 1286, 314, 1286)])
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k1miw"]
+size = Vector2(972, 27)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qdptf"]
+size = Vector2(27, 972)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e6u8w"]
+size = Vector2(972, 27)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m5bif"]
+size = Vector2(27, 972)
 
 [node name="RobotBossesRoom" type="Node"]
 script = ExtResource("1_73h2u")
@@ -15,6 +32,48 @@ position = Vector2(800, 800)
 texture = SubResource("CanvasTexture_ydmul")
 region_enabled = true
 region_rect = Rect2(0, 0, 972, 972)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_3o758")
+
+[node name="Wall1" type="StaticBody2D" parent="NavigationRegion2D"]
+position = Vector2(314, 314)
+collision_layer = 2
+collision_mask = 61
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationRegion2D/Wall1"]
+position = Vector2(486, 13.5)
+shape = SubResource("RectangleShape2D_k1miw")
+
+[node name="Wall2" type="StaticBody2D" parent="NavigationRegion2D"]
+position = Vector2(1276, 324)
+collision_layer = 2
+collision_mask = 61
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationRegion2D/Wall2"]
+position = Vector2(-3.5, 476)
+shape = SubResource("RectangleShape2D_qdptf")
+
+[node name="Wall3" type="StaticBody2D" parent="NavigationRegion2D"]
+position = Vector2(324, 1276)
+collision_layer = 2
+collision_mask = 61
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationRegion2D/Wall3"]
+position = Vector2(476, -3.5)
+shape = SubResource("RectangleShape2D_e6u8w")
+
+[node name="Wall4" type="StaticBody2D" parent="NavigationRegion2D"]
+position = Vector2(328, 800)
+collision_layer = 2
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationRegion2D/Wall4"]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_m5bif")
 
 [node name="Player" parent="." instance=ExtResource("1_sbl4c")]
 position = Vector2(780, 537)
@@ -30,6 +89,7 @@ limit_bottom = 1772
 position = Vector2(658, 1074)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
 anchors_preset = 15

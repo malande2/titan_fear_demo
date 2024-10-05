@@ -38,13 +38,14 @@ scale = Vector2(2.44, 1.48)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 target_desired_distance = 300.0
+avoidance_enabled = true
+radius = 34.0
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("3_igp2g")
 max_health = 200
 
 [node name="HurtBoxComponent" type="Area2D" parent="." node_paths=PackedStringArray("health")]
-visible = false
 script = ExtResource("4_tcn3r")
 health = NodePath("../HealthComponent")
 

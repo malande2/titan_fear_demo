@@ -7,9 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://bpsgoe0g12w7o" path="res://scenes/enemies/simple_enemy/simple_enemy.tscn" id="4_nnh5x"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_tni5a"]
-vertices = PackedVector2Array(741, 309, 43.75, 309, 43.75, 43, 741, 43)
+vertices = PackedVector2Array(917, 461, 219, 461, 219, 195, 917, 195)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(33.751, 32, 753.751, 32, 753.751, 320, 33.751, 320)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(168, 152, 968, 152, 968, 504, 168, 512)])
 source_geometry_group_name = &"navigation_polygon_source_group"
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_a861x"]
@@ -41,10 +41,10 @@ scale = Vector2(1.45796, 1)
 texture = ExtResource("1_w6drm")
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-position = Vector2(174.249, 152)
 navigation_polygon = SubResource("NavigationPolygon_tni5a")
 
 [node name="wall1" type="StaticBody2D" parent="NavigationRegion2D"]
+position = Vector2(176, 152)
 collision_layer = 2
 collision_mask = 29
 physics_material_override = SubResource("PhysicsMaterial_a861x")
@@ -54,6 +54,7 @@ position = Vector2(386, 13)
 shape = SubResource("RectangleShape2D_00qcw")
 
 [node name="wall2" type="StaticBody2D" parent="NavigationRegion2D"]
+position = Vector2(176, 152)
 collision_layer = 2
 collision_mask = 29
 physics_material_override = SubResource("PhysicsMaterial_prnse")
@@ -63,6 +64,7 @@ position = Vector2(771, 159.5)
 shape = SubResource("RectangleShape2D_ra4wh")
 
 [node name="wall3" type="StaticBody2D" parent="NavigationRegion2D"]
+position = Vector2(176, 152)
 collision_layer = 2
 collision_mask = 29
 physics_material_override = SubResource("PhysicsMaterial_vskoh")
@@ -72,6 +74,7 @@ position = Vector2(398.5, 339)
 shape = SubResource("RectangleShape2D_g5i0d")
 
 [node name="wall4" type="StaticBody2D" parent="NavigationRegion2D"]
+position = Vector2(176, 152)
 collision_layer = 2
 collision_mask = 29
 physics_material_override = SubResource("PhysicsMaterial_t4h54")
@@ -81,31 +84,31 @@ position = Vector2(13, 179.5)
 shape = SubResource("RectangleShape2D_nuuy0")
 
 [node name="Box" parent="NavigationRegion2D" instance=ExtResource("2_5xkgo")]
-position = Vector2(168, 176)
+position = Vector2(344, 328)
 
 [node name="Box2" parent="NavigationRegion2D" instance=ExtResource("2_5xkgo")]
-position = Vector2(131, 296)
+position = Vector2(307, 448)
 
-[node name="Player" parent="." instance=ExtResource("1_ugo6r")]
-position = Vector2(306, 243)
+[node name="Player" parent="NavigationRegion2D" instance=ExtResource("1_ugo6r")]
+position = Vector2(307, 249)
 up_direction = Vector2(2.94434e-12, 1)
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="Camera2D" type="Camera2D" parent="NavigationRegion2D/Player"]
 limit_left = 0
 limit_top = 0
 
-[node name="SimpleEnemy" parent="." instance=ExtResource("4_nnh5x")]
-position = Vector2(806, 325)
+[node name="SimpleEnemy" parent="NavigationRegion2D" instance=ExtResource("4_nnh5x")]
+position = Vector2(807, 325)
 rotation = 3.14159
 
-[node name="SimpleEnemy2" parent="." instance=ExtResource("4_nnh5x")]
-position = Vector2(775, 248)
+[node name="SimpleEnemy2" parent="NavigationRegion2D" instance=ExtResource("4_nnh5x")]
+position = Vector2(776, 248)
 
-[node name="SimpleEnemy3" parent="." instance=ExtResource("4_nnh5x")]
-position = Vector2(767, 367)
+[node name="SimpleEnemy3" parent="NavigationRegion2D" instance=ExtResource("4_nnh5x")]
+position = Vector2(768, 367)
 
-[node name="SimpleEnemy4" parent="." instance=ExtResource("4_nnh5x")]
-position = Vector2(811, 377)
+[node name="SimpleEnemy4" parent="NavigationRegion2D" instance=ExtResource("4_nnh5x")]
+position = Vector2(812, 377)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

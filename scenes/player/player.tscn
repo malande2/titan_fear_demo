@@ -61,7 +61,7 @@ player = NodePath("../..")
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("5_qnrjj")
-max_health = 20
+max_health = 2000
 
 [node name="Machete" parent="." node_paths=PackedStringArray("attack_timer", "reload_timer") instance=ExtResource("7_s5fpw")]
 position = Vector2(9, -9)
