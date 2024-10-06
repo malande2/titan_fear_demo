@@ -46,6 +46,8 @@ script = ExtResource("3_igp2g")
 max_health = 200
 
 [node name="HurtBoxComponent" type="Area2D" parent="." node_paths=PackedStringArray("health")]
+collision_layer = 32
+collision_mask = 8
 script = ExtResource("4_tcn3r")
 health = NodePath("../HealthComponent")
 

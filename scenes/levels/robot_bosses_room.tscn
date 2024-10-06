@@ -75,21 +75,20 @@ metadata/_edit_group_ = true
 position = Vector2(-0.5, 0)
 shape = SubResource("RectangleShape2D_m5bif")
 
-[node name="Player" parent="." instance=ExtResource("1_sbl4c")]
+[node name="Player" parent="NavigationRegion2D" instance=ExtResource("1_sbl4c")]
 position = Vector2(780, 537)
 metadata/_edit_group_ = true
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="Camera2D" type="Camera2D" parent="NavigationRegion2D/Player"]
 limit_left = 0
 limit_top = 0
 limit_right = 2528
 limit_bottom = 1772
 
-[node name="RobotBossSniper" parent="." instance=ExtResource("2_x2jdx")]
-position = Vector2(658, 1074)
+[node name="RobotBossSniper" parent="NavigationRegion2D" instance=ExtResource("2_x2jdx")]
+position = Vector2(656, 475)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
 anchors_preset = 15

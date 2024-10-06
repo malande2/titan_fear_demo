@@ -19,16 +19,9 @@ func physics_update(delta: float):
 	if Input.is_action_just_pressed("melee") and player.melee_weapon.is_attack_possible():
 		player.melee_weapon.attack()
 	
-	var direction = Input.get_axis("left", "right")
-	if direction:
-		player.velocity.x = direction * SPEED
-	else:
-		player.velocity.x = move_toward(player.velocity.x, 0, SPEED)
-		
-	direction = Input.get_axis("up", "down")
-	if direction:
-		player.velocity.y = direction * SPEED
-	else:
-		player.velocity.y = move_toward(player.velocity.y, 0, SPEED)
-
+	var x = Input.get_axis("left", "right")
+	var y = Input.get_axis("up", "down")
+	var direction = Vector2(x, y).normalized()
+	
+	player.velocity = direction * SPEED
 	player.move_and_slide()

@@ -1,16 +1,92 @@
-[gd_scene load_steps=4 format=3 uid="uid://clpjd4x7slyyi"]
+[gd_scene load_steps=8 format=3 uid="uid://clpjd4x7slyyi"]
 
 [ext_resource type="Script" path="res://scenes/weapons/robot_boss_sniper_rifle/robot_boss_sniper_rifle.gd" id="1_eh1gr"]
 [ext_resource type="PackedScene" uid="uid://bahksl6oxftwq" path="res://scenes/projectiles/sniper_rifle_missile/sniper_rifle_missile.tscn" id="2_q2sgg"]
 [ext_resource type="Texture2D" uid="uid://dbk4t6dvqwa5e" path="res://sprites/weapons/sniper_rifle.png" id="2_wrgy6"]
 
-[node name="RobotBossSniperRifle" type="Node2D" node_paths=PackedStringArray("gunpoint")]
+[sub_resource type="Animation" id="Animation_674tg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MissileTrace:default_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_06kpg"]
+resource_name = "shot"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MissileTrace:default_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 0, 0, 0), Color(1, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_i883x"]
+resource_name = "post_shot"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MissileTrace:default_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 0, 0, 1), Color(1, 0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_p61ks"]
+_data = {
+"RESET": SubResource("Animation_674tg"),
+"post_shot": SubResource("Animation_i883x"),
+"shot": SubResource("Animation_06kpg")
+}
+
+[node name="RobotBossSniperRifle" type="Node2D" node_paths=PackedStringArray("gunpoint", "reload_timer")]
 script = ExtResource("1_eh1gr")
 gunpoint = NodePath("Marker2D")
 projectile = ExtResource("2_q2sgg")
+reload_timer = NodePath("ReloadTimer")
+min_damage = 30
+max_damage = 40
+
+[node name="MissileTrace" type="Line2D" parent="."]
+position = Vector2(16, 0)
+points = PackedVector2Array(0, 0, 0, 0)
+width = 2.0
+default_color = Color(1, 0, 0, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_wrgy6")
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(16, 0)
+
+[node name="ShotAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_p61ks")
+}
+
+[node name="ReloadTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ChargingTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]
+[connection signal="timeout" from="ChargingTimer" to="." method="_on_charging_timer_timeout"]
