@@ -1,15 +1,18 @@
-[gd_scene load_steps=10 format=3 uid="uid://dq2deqs3yync5"]
+[gd_scene load_steps=11 format=3 uid="uid://dq2deqs3yync5"]
 
 [ext_resource type="Script" path="res://scenes/levels/robot_bosses_room.gd" id="1_73h2u"]
 [ext_resource type="PackedScene" uid="uid://ljoor4cojxck" path="res://scenes/player/player.tscn" id="1_sbl4c"]
+[ext_resource type="Texture2D" uid="uid://btusy6gueiego" path="res://sprites/levels/tile_10.png" id="2_nbw2k"]
 [ext_resource type="PackedScene" uid="uid://cuc8vme7t2efp" path="res://scenes/enemies/robot_bosses/robot_boss_sniper/robot_boss_sniper.tscn" id="2_x2jdx"]
 
-[sub_resource type="CanvasTexture" id="CanvasTexture_ydmul"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k62ut"]
+size = Vector2(972, 40)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_3o758"]
-vertices = PackedVector2Array(1249, 1249, 351, 1249, 351, 351, 1249, 351)
+vertices = PackedVector2Array(1213, 1213, 387, 1213, 387, 387, 1213, 387)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(314, 314, 1286, 314, 1286, 1286, 314, 1286)])
+agent_radius = 46.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k1miw"]
 size = Vector2(972, 27)
@@ -27,11 +30,19 @@ size = Vector2(27, 972)
 script = ExtResource("1_73h2u")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-self_modulate = Color(0.564962, 0.564962, 0.564962, 1)
+texture_repeat = 2
 position = Vector2(800, 800)
-texture = SubResource("CanvasTexture_ydmul")
+texture = ExtResource("2_nbw2k")
 region_enabled = true
 region_rect = Rect2(0, 0, 972, 972)
+
+[node name="TriggerArea" type="Area2D" parent="."]
+position = Vector2(799, 645)
+collision_layer = 2
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
+shape = SubResource("RectangleShape2D_k62ut")
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_3o758")
@@ -76,7 +87,8 @@ position = Vector2(-0.5, 0)
 shape = SubResource("RectangleShape2D_m5bif")
 
 [node name="Player" parent="NavigationRegion2D" instance=ExtResource("1_sbl4c")]
-position = Vector2(780, 537)
+position = Vector2(799, 374)
+rotation = 1.5708
 metadata/_edit_group_ = true
 
 [node name="Camera2D" type="Camera2D" parent="NavigationRegion2D/Player"]
@@ -85,8 +97,10 @@ limit_top = 0
 limit_right = 2528
 limit_bottom = 1772
 
-[node name="RobotBossSniper" parent="NavigationRegion2D" instance=ExtResource("2_x2jdx")]
-position = Vector2(656, 475)
+[node name="RobotBossSniper" parent="NavigationRegion2D" node_paths=PackedStringArray("trigger_area") instance=ExtResource("2_x2jdx")]
+position = Vector2(478, 1112)
+rotation = -0.80037
+trigger_area = NodePath("../../TriggerArea")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -115,4 +129,5 @@ mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 40
 text = "back"
 
+[connection signal="area_entered" from="TriggerArea" to="." method="_on_area_2d_area_entered"]
 [connection signal="pressed" from="CanvasLayer/ColorRect/Button" to="." method="_on_button_pressed"]

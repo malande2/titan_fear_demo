@@ -1,10 +1,15 @@
-[gd_scene load_steps=9 format=3 uid="uid://cuc8vme7t2efp"]
+[gd_scene load_steps=17 format=3 uid="uid://cuc8vme7t2efp"]
 
 [ext_resource type="Texture2D" uid="uid://dwifq7ux3pifw" path="res://sprites/enemies/robot.png" id="1_6giwm"]
 [ext_resource type="Script" path="res://scenes/enemies/robot_bosses/robot_boss_sniper/robot_boss_sniper.gd" id="1_shies"]
 [ext_resource type="PackedScene" uid="uid://clpjd4x7slyyi" path="res://scenes/weapons/robot_boss_sniper_rifle/robot_boss_sniper_rifle.tscn" id="2_2dp7d"]
 [ext_resource type="Script" path="res://scripts/components/health_component.gd" id="3_igp2g"]
 [ext_resource type="Script" path="res://scripts/components/hurt_box_component.gd" id="4_tcn3r"]
+[ext_resource type="Script" path="res://scripts/fsm/finiste_state_machine.gd" id="6_8dhkj"]
+[ext_resource type="Script" path="res://scenes/enemies/robot_bosses/fsm/idle_state.gd" id="7_14a53"]
+[ext_resource type="Script" path="res://scenes/enemies/robot_bosses/robot_boss_sniper/fsm/follow_state.gd" id="8_u7vsp"]
+[ext_resource type="Script" path="res://scenes/enemies/robot_bosses/robot_boss_sniper/fsm/attack_state.gd" id="9_4u6ci"]
+[ext_resource type="Script" path="res://scenes/enemies/robot_bosses/fsm/death_state.gd" id="10_g35uh"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ibodj"]
 radius = 34.0
@@ -15,6 +20,42 @@ radius = 25.0
 height = 86.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hc27v"]
+
+[sub_resource type="Animation" id="Animation_8r5hc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_atev7"]
+resource_name = "hurt"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.8, 0.8, 1), Color(1, 0.6, 0.6, 1), Color(1, 0.4, 0.4, 1), Color(1, 0.2, 0.2, 1), Color(1, 0, 0, 1), Color(1, 0.2, 0.2, 1), Color(1, 0.4, 0.4, 1), Color(1, 0.6, 0.6, 1), Color(1, 0.8, 0.8, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qj62q"]
+_data = {
+"RESET": SubResource("Animation_8r5hc"),
+"hurt": SubResource("Animation_atev7")
+}
 
 [node name="RobotBossSniper" type="CharacterBody2D" node_paths=PackedStringArray("rifle")]
 collision_layer = 32
@@ -27,7 +68,6 @@ rifle = NodePath("RobotBossSniperRifle")
 shape = SubResource("CapsuleShape2D_ibodj")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-self_modulate = Color(0.258824, 0.584314, 1, 1)
 position = Vector2(5, 0)
 scale = Vector2(2, 2)
 texture = ExtResource("1_6giwm")
@@ -37,7 +77,8 @@ position = Vector2(39, -25)
 scale = Vector2(2.44, 1.48)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-target_desired_distance = 300.0
+target_desired_distance = 1.0
+path_max_distance = 10.0
 avoidance_enabled = true
 radius = 34.0
 
@@ -64,3 +105,39 @@ debug_color = Color(1, 0.6, 0.701961, 0.419608)
 position = Vector2(24, -25)
 shape = SubResource("RectangleShape2D_hc27v")
 debug_color = Color(1, 0.6, 0.701961, 0.419608)
+
+[node name="fsm" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("6_8dhkj")
+initial_state = NodePath("idle")
+
+[node name="idle" type="Node" parent="fsm" node_paths=PackedStringArray("hurt_boxes")]
+script = ExtResource("7_14a53")
+hurt_boxes = [NodePath("../../HurtBoxComponent")]
+
+[node name="follow" type="Node" parent="fsm" node_paths=PackedStringArray("robot_sniper", "forced_transition_timer")]
+script = ExtResource("8_u7vsp")
+robot_sniper = NodePath("../..")
+shot_distance = 200.0
+forced_transition_timer = NodePath("ForcedTransitionTimer")
+
+[node name="ForcedTransitionTimer" type="Timer" parent="fsm/follow"]
+wait_time = 5.0
+one_shot = true
+
+[node name="attack" type="Node" parent="fsm" node_paths=PackedStringArray("robot_sniper")]
+script = ExtResource("9_4u6ci")
+robot_sniper = NodePath("../..")
+
+[node name="death" type="Node" parent="fsm" node_paths=PackedStringArray("hurt_box", "gun")]
+script = ExtResource("10_g35uh")
+hurt_box = NodePath("../../HurtBoxComponent")
+gun = NodePath("../../RobotBossSniperRifle")
+
+[node name="HurtAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_qj62q")
+}
+speed_scale = 2.0
+
+[connection signal="health_depleated" from="HealthComponent" to="." method="_on_health_component_health_depleated"]
+[connection signal="received_damage" from="HurtBoxComponent" to="." method="_on_hurt_box_component_received_damage"]

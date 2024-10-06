@@ -1,17 +1,21 @@
 extends Gun
 class_name RobotBossSniperRifle
 
+signal fired
 signal reloaded
 
 @onready var missile_trace: Line2D = $MissileTrace
 @onready var charging_timer = $ChargingTimer
 @onready var shot_animation = $ShotAnimation
 
+func is_attack_possible():
+	return super.is_attack_possible() and charging_timer.is_stopped()
+
 func _on_reload_timer_timeout():
 	reloaded.emit()
 
-func set_ray_position(position: Vector2):
-	missile_trace.points[1] = position
+func set_ray_position(global_position_to_convert: Vector2):
+	missile_trace.points[1] = missile_trace.to_local(global_position_to_convert)
 
 func run_charging():
 	if reload_timer.is_stopped() and charging_timer.is_stopped():
@@ -37,5 +41,6 @@ func _on_charging_timer_timeout():
 	shot_animation.speed_scale = 1.0
 	shot_animation.play("post_shot")
 	await shot_animation.animation_finished
+	fired.emit()
 	set_ray_position(Vector2.ZERO)
 	reload_timer.start()

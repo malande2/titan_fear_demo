@@ -90,7 +90,6 @@ neighbor_distance = 100.0
 max_speed = 200.0
 avoidance_layers = 4
 avoidance_mask = 7
-debug_enabled = true
 debug_use_custom = true
 debug_path_custom_color = Color(1, 0, 0, 1)
 

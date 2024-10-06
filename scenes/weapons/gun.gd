@@ -12,6 +12,9 @@ class_name Gun
 
 var enabled: bool = true
 
+func is_attack_possible() -> bool:
+	return enabled and reload_timer.is_stopped()
+
 func set_enabled(enabled: bool):
 	self.enabled = enabled
 	if enabled:
