@@ -54,4 +54,8 @@ func _on_velocity_computed(safe_velocity: Vector2):
 	robot_sniper.look_at(robot_sniper.agent.target_position)
 
 func _to_attack():
-	Transitioned.emit(self, "attack")
+	var distance_to_player = robot_sniper.global_position.distance_to(player.global_position)
+	if distance_to_player < 100:
+		Transitioned.emit(self, "heat_attack")
+	else:
+		Transitioned.emit(self, "attack")

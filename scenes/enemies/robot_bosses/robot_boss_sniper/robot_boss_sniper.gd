@@ -8,11 +8,13 @@ class_name RobotBossSniper
 @onready var health_component = $HealthComponent
 @onready var hurt_animation = $HurtAnimation
 @onready var idle = $fsm/idle
+@onready var heat_wave = $HeatWave
 
 func _ready() -> void:
 	rifle.projectile_layer = Utils.PhysicsLayer.ENEMY_PROJECTILE
 	rifle.projectile_mask = Utils.PhysicsLayer.PLAYER
 	idle.trigger_area = trigger_area
+	heat_wave.hit_box_component
 
 func _on_hurt_box_component_received_damage(damage):
 	hurt_animation.play("hurt")

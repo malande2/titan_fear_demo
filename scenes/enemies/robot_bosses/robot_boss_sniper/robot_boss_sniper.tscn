@@ -1,7 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://cuc8vme7t2efp"]
+[gd_scene load_steps=19 format=3 uid="uid://cuc8vme7t2efp"]
 
 [ext_resource type="Texture2D" uid="uid://dwifq7ux3pifw" path="res://sprites/enemies/robot.png" id="1_6giwm"]
 [ext_resource type="Script" path="res://scenes/enemies/robot_bosses/robot_boss_sniper/robot_boss_sniper.gd" id="1_shies"]
+[ext_resource type="PackedScene" uid="uid://q4wkq2sg7d8s" path="res://scenes/enemies/robot_bosses/heat_wave.tscn" id="2_0k3vx"]
 [ext_resource type="PackedScene" uid="uid://clpjd4x7slyyi" path="res://scenes/weapons/robot_boss_sniper_rifle/robot_boss_sniper_rifle.tscn" id="2_2dp7d"]
 [ext_resource type="Script" path="res://scripts/components/health_component.gd" id="3_igp2g"]
 [ext_resource type="Script" path="res://scripts/components/hurt_box_component.gd" id="4_tcn3r"]
@@ -10,6 +11,7 @@
 [ext_resource type="Script" path="res://scenes/enemies/robot_bosses/robot_boss_sniper/fsm/follow_state.gd" id="8_u7vsp"]
 [ext_resource type="Script" path="res://scenes/enemies/robot_bosses/robot_boss_sniper/fsm/attack_state.gd" id="9_4u6ci"]
 [ext_resource type="Script" path="res://scenes/enemies/robot_bosses/fsm/death_state.gd" id="10_g35uh"]
+[ext_resource type="Script" path="res://scenes/enemies/robot_bosses/fsm/heat_wave_attack_state.gd" id="12_twhdb"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ibodj"]
 radius = 34.0
@@ -66,6 +68,11 @@ rifle = NodePath("RobotBossSniperRifle")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_ibodj")
+
+[node name="HeatWave" parent="." instance=ExtResource("2_0k3vx")]
+charging_time = 3.0
+heat_time = 0.4
+damage = 20.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(5, 0)
@@ -132,6 +139,10 @@ robot_sniper = NodePath("../..")
 script = ExtResource("10_g35uh")
 hurt_box = NodePath("../../HurtBoxComponent")
 gun = NodePath("../../RobotBossSniperRifle")
+
+[node name="heat_attack" type="Node" parent="fsm" node_paths=PackedStringArray("heat_wave")]
+script = ExtResource("12_twhdb")
+heat_wave = NodePath("../../HeatWave")
 
 [node name="HurtAnimation" type="AnimationPlayer" parent="."]
 libraries = {
