@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dq2deqs3yync5"]
+[gd_scene load_steps=13 format=3 uid="uid://dq2deqs3yync5"]
 
 [ext_resource type="Script" path="res://scenes/levels/robot_bosses_room.gd" id="1_73h2u"]
 [ext_resource type="PackedScene" uid="uid://ljoor4cojxck" path="res://scenes/player/player.tscn" id="1_sbl4c"]
@@ -26,6 +26,15 @@ size = Vector2(972, 27)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m5bif"]
 size = Vector2(27, 972)
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_ppu3p"]
+vertices = PackedVector2Array(1170, 430, 1170, 1170, 1045.9, 800, 1012.96, 677.047, 1012.96, 922.953, 922.953, 587.039, 430, 430, 800, 554.102, 677.047, 587.039, 587.039, 677.047, 430, 1170, 554.102, 800, 587.039, 922.953, 677.047, 1012.96, 800, 1045.9, 922.953, 1012.96)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 2, 1), PackedInt32Array(0, 3, 5), PackedInt32Array(6, 0, 5, 7), PackedInt32Array(6, 7, 8), PackedInt32Array(6, 8, 9), PackedInt32Array(10, 6, 9, 11), PackedInt32Array(10, 11, 12), PackedInt32Array(10, 12, 13), PackedInt32Array(1, 10, 13, 14), PackedInt32Array(1, 14, 15), PackedInt32Array(4, 1, 15)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(384, 384, 1216, 384, 1216, 1216, 384, 1216)])
+agent_radius = 46.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w1ys3"]
+radius = 198.283
+
 [node name="RobotBossesRoom" type="Node"]
 script = ExtResource("1_73h2u")
 
@@ -44,7 +53,20 @@ metadata/_edit_group_ = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
 shape = SubResource("RectangleShape2D_k62ut")
 
+[node name="Player" parent="." instance=ExtResource("1_sbl4c")]
+z_index = 1
+position = Vector2(799, 374)
+rotation = 1.5708
+metadata/_edit_group_ = true
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+limit_left = 0
+limit_top = 0
+limit_right = 2528
+limit_bottom = 1772
+
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+unique_name_in_owner = true
 navigation_polygon = SubResource("NavigationPolygon_3o758")
 
 [node name="Wall1" type="StaticBody2D" parent="NavigationRegion2D"]
@@ -86,18 +108,20 @@ metadata/_edit_group_ = true
 position = Vector2(-0.5, 0)
 shape = SubResource("RectangleShape2D_m5bif")
 
-[node name="Player" parent="NavigationRegion2D" instance=ExtResource("1_sbl4c")]
-position = Vector2(799, 374)
-rotation = 1.5708
-metadata/_edit_group_ = true
+[node name="CircleNavigationRegion" type="NavigationRegion2D" parent="."]
+unique_name_in_owner = true
+navigation_polygon = SubResource("NavigationPolygon_ppu3p")
+navigation_layers = 2
 
-[node name="Camera2D" type="Camera2D" parent="NavigationRegion2D/Player"]
-limit_left = 0
-limit_top = 0
-limit_right = 2528
-limit_bottom = 1772
+[node name="StaticBody2D" type="StaticBody2D" parent="CircleNavigationRegion"]
+collision_layer = 128
+collision_mask = 0
 
-[node name="RobotBossSniper" parent="NavigationRegion2D" node_paths=PackedStringArray("trigger_area") instance=ExtResource("2_x2jdx")]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CircleNavigationRegion/StaticBody2D"]
+position = Vector2(800, 800)
+shape = SubResource("CircleShape2D_w1ys3")
+
+[node name="RobotBossSniper" parent="CircleNavigationRegion" node_paths=PackedStringArray("trigger_area") instance=ExtResource("2_x2jdx")]
 position = Vector2(478, 1112)
 rotation = -0.80037
 trigger_area = NodePath("../../TriggerArea")
