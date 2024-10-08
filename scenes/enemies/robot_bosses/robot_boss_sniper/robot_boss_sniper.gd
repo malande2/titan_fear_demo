@@ -14,7 +14,6 @@ func _ready() -> void:
 	rifle.projectile_layer = Utils.PhysicsLayer.ENEMY_PROJECTILE
 	rifle.projectile_mask = Utils.PhysicsLayer.PLAYER
 	idle.trigger_area = trigger_area
-	heat_wave.hit_box_component
 
 func _on_hurt_box_component_received_damage(damage):
 	hurt_animation.play("hurt")

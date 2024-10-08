@@ -1,0 +1,123 @@
+[gd_scene load_steps=15 format=3 uid="uid://j8pdhirxnp3n"]
+
+[ext_resource type="Script" path="res://scenes/enemies/robot_bosses/robot_boss_healer/robot_boss_healer.gd" id="1_spxdr"]
+[ext_resource type="Texture2D" uid="uid://dwifq7ux3pifw" path="res://sprites/enemies/robot.png" id="1_v40ci"]
+[ext_resource type="PackedScene" uid="uid://q4wkq2sg7d8s" path="res://scenes/enemies/robot_bosses/heat_wave.tscn" id="2_gilm2"]
+[ext_resource type="Script" path="res://scripts/components/hurt_box_component.gd" id="3_18joc"]
+[ext_resource type="Script" path="res://scripts/components/health_component.gd" id="3_y2cql"]
+[ext_resource type="Script" path="res://scripts/fsm/finiste_state_machine.gd" id="6_auyud"]
+[ext_resource type="Script" path="res://scenes/enemies/robot_bosses/fsm/idle_state.gd" id="7_g8g53"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0dtes"]
+radius = 34.0
+height = 92.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ck0j5"]
+radius = 25.0
+height = 86.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1jg1x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_blgtl"]
+
+[sub_resource type="Animation" id="Animation_8r5hc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_atev7"]
+resource_name = "hurt"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.8, 0.8, 1), Color(1, 0.6, 0.6, 1), Color(1, 0.4, 0.4, 1), Color(1, 0.2, 0.2, 1), Color(1, 0, 0, 1), Color(1, 0.2, 0.2, 1), Color(1, 0.4, 0.4, 1), Color(1, 0.6, 0.6, 1), Color(1, 0.8, 0.8, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qj62q"]
+_data = {
+"RESET": SubResource("Animation_8r5hc"),
+"hurt": SubResource("Animation_atev7")
+}
+
+[node name="RobotBossHealer" type="CharacterBody2D"]
+z_index = 1
+collision_layer = 32
+collision_mask = 39
+motion_mode = 1
+script = ExtResource("1_spxdr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_0dtes")
+
+[node name="HeatWave" parent="." instance=ExtResource("2_gilm2")]
+z_as_relative = false
+radius = 200.0
+charging_time = 3.0
+heat_time = 0.4
+damage = 20.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(5, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("1_v40ci")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("3_y2cql")
+max_health = 200
+
+[node name="HurtBoxComponent" type="Area2D" parent="." node_paths=PackedStringArray("health")]
+collision_layer = 32
+collision_mask = 8
+script = ExtResource("3_18joc")
+health = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxComponent"]
+shape = SubResource("CapsuleShape2D_ck0j5")
+debug_color = Color(0.94902, 0, 0.584314, 0.196078)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HurtBoxComponent"]
+position = Vector2(29, -25)
+shape = SubResource("RectangleShape2D_1jg1x")
+debug_color = Color(0.968627, 0, 0.47451, 0.196078)
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="HurtBoxComponent"]
+position = Vector2(29, 26)
+shape = SubResource("RectangleShape2D_blgtl")
+debug_color = Color(0.968627, 0, 0.47451, 0.196078)
+
+[node name="HurtAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_qj62q")
+}
+speed_scale = 2.0
+
+[node name="HealingBeamStartPoint" type="Marker2D" parent="."]
+position = Vector2(42, 25)
+
+[node name="fsm" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("6_auyud")
+initial_state = NodePath("idle")
+
+[node name="idle" type="Node" parent="fsm" node_paths=PackedStringArray("hurt_box")]
+script = ExtResource("7_g8g53")
+hurt_box = NodePath("../../HurtBoxComponent")
+
+[connection signal="health_depleated" from="HealthComponent" to="." method="_on_health_component_health_depleated"]
+[connection signal="received_damage" from="HurtBoxComponent" to="." method="_on_hurt_box_component_received_damage"]

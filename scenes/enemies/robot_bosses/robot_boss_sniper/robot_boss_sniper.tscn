@@ -122,9 +122,9 @@ debug_color = Color(1, 0.6, 0.701961, 0.419608)
 script = ExtResource("6_8dhkj")
 initial_state = NodePath("idle")
 
-[node name="idle" type="Node" parent="fsm" node_paths=PackedStringArray("hurt_boxes")]
+[node name="idle" type="Node" parent="fsm" node_paths=PackedStringArray("hurt_box")]
 script = ExtResource("7_14a53")
-hurt_boxes = [NodePath("../../HurtBoxComponent")]
+hurt_box = NodePath("../../HurtBoxComponent")
 
 [node name="follow" type="Node" parent="fsm" node_paths=PackedStringArray("robot_sniper", "forced_transition_timer")]
 script = ExtResource("8_u7vsp")
