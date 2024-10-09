@@ -126,10 +126,10 @@ position = Vector2(478, 1112)
 rotation = -0.785398
 trigger_area = NodePath("../../TriggerArea")
 
-[node name="RobotBossHealer" parent="." node_paths=PackedStringArray("trigger_area") groups=["robot_bosses"] instance=ExtResource("5_2so51")]
-position = Vector2(1064, 1056)
+[node name="RobotBossHealer" parent="CircleNavigationRegion" node_paths=PackedStringArray("trigger_area") groups=["robot_bosses"] instance=ExtResource("5_2so51")]
+position = Vector2(1104, 1112)
 rotation = -2.35619
-trigger_area = NodePath("../TriggerArea")
+trigger_area = NodePath("../../TriggerArea")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

@@ -2,7 +2,6 @@ extends CharacterBody2D
 class_name RobotBossHealer
 
 @export var trigger_area: Area2D
-@export var follow_path: Path2D
 
 @onready var idle: RobotBossIdle = $fsm/idle
 @onready var health_component: HealthComponent = $HealthComponent

@@ -92,6 +92,7 @@ path_max_distance = 10.0
 navigation_layers = 2
 avoidance_enabled = true
 radius = 34.0
+max_neighbors = 2
 debug_path_custom_color = Color(1, 0, 0, 1)
 
 [node name="HealthComponent" type="Node" parent="."]
@@ -126,11 +127,12 @@ initial_state = NodePath("idle")
 script = ExtResource("7_14a53")
 hurt_box = NodePath("../../HurtBoxComponent")
 
-[node name="follow" type="Node" parent="fsm" node_paths=PackedStringArray("robot_sniper", "forced_transition_timer")]
+[node name="follow" type="Node" parent="fsm" node_paths=PackedStringArray("robot_sniper", "forced_transition_timer", "heat_wave")]
 script = ExtResource("8_u7vsp")
 robot_sniper = NodePath("../..")
 shot_distance = 200.0
 forced_transition_timer = NodePath("ForcedTransitionTimer")
+heat_wave = NodePath("../../HeatWave")
 
 [node name="ForcedTransitionTimer" type="Timer" parent="fsm/follow"]
 wait_time = 5.0

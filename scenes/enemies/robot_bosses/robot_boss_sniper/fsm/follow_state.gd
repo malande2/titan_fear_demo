@@ -5,6 +5,7 @@ class_name RobotBossSniperFollow
 @export var shot_distance: float
 @export var speed: float = 40.0
 @export var forced_transition_timer: Timer
+@export var heat_wave: HeatWave
 
 var player: Player
 
@@ -61,7 +62,7 @@ func _on_velocity_computed(safe_velocity: Vector2):
 
 func _to_attack():
 	var distance_to_player = robot_sniper.global_position.distance_to(player.global_position)
-	if distance_to_player < robot_sniper.heat_wave.radius:
+	if distance_to_player < heat_wave.radius * 0.75:
 		Transitioned.emit(self, "heat_attack")
 	else:
 		Transitioned.emit(self, "attack")

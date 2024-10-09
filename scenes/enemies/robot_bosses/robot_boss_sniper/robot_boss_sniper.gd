@@ -10,7 +10,7 @@ class_name RobotBossSniper
 @onready var idle = $fsm/idle
 @onready var heat_wave = $HeatWave
 
-func _ready() -> void:
+func _ready():
 	rifle.projectile_layer = Utils.PhysicsLayer.ENEMY_PROJECTILE
 	rifle.projectile_mask = Utils.PhysicsLayer.PLAYER
 	idle.trigger_area = trigger_area
