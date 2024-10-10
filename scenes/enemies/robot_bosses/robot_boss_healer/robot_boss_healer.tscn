@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://j8pdhirxnp3n"]
+[gd_scene load_steps=17 format=3 uid="uid://j8pdhirxnp3n"]
 
 [ext_resource type="Script" path="res://scenes/enemies/robot_bosses/robot_boss_healer/robot_boss_healer.gd" id="1_spxdr"]
 [ext_resource type="Texture2D" uid="uid://dwifq7ux3pifw" path="res://sprites/enemies/robot.png" id="1_v40ci"]
@@ -7,6 +7,8 @@
 [ext_resource type="Script" path="res://scripts/components/health_component.gd" id="3_y2cql"]
 [ext_resource type="Script" path="res://scripts/fsm/finiste_state_machine.gd" id="6_auyud"]
 [ext_resource type="Script" path="res://scenes/enemies/robot_bosses/fsm/idle_state.gd" id="7_g8g53"]
+[ext_resource type="Script" path="res://scenes/enemies/robot_bosses/robot_boss_healer/fsm/follow_state.gd" id="8_wavfp"]
+[ext_resource type="Script" path="res://scenes/enemies/robot_bosses/fsm/heat_wave_attack_state.gd" id="9_7bqo2"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0dtes"]
 radius = 34.0
@@ -82,14 +84,6 @@ texture = ExtResource("1_v40ci")
 script = ExtResource("3_y2cql")
 max_health = 200
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-target_desired_distance = 1.0
-path_max_distance = 10.0
-navigation_layers = 2
-avoidance_enabled = true
-radius = 34.0
-max_neighbors = 2
-
 [node name="HurtBoxComponent" type="Area2D" parent="." node_paths=PackedStringArray("health")]
 collision_layer = 32
 collision_mask = 8
@@ -110,6 +104,10 @@ position = Vector2(29, 26)
 shape = SubResource("RectangleShape2D_blgtl")
 debug_color = Color(0.968627, 0, 0.47451, 0.196078)
 
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+radius = 47.0
+avoidance_layers = 3
+
 [node name="HurtAnimation" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_qj62q")
@@ -126,6 +124,21 @@ initial_state = NodePath("idle")
 [node name="idle" type="Node" parent="fsm" node_paths=PackedStringArray("hurt_box")]
 script = ExtResource("7_g8g53")
 hurt_box = NodePath("../../HurtBoxComponent")
+
+[node name="follow" type="Node" parent="fsm" node_paths=PackedStringArray("robot_healer", "transition_timer")]
+script = ExtResource("8_wavfp")
+robot_healer = NodePath("../..")
+heat_wave_radius = 150.0
+transition_timer = NodePath("Timer")
+
+[node name="Timer" type="Timer" parent="fsm/follow"]
+wait_time = 5.0
+one_shot = true
+
+[node name="heat_attack" type="Node" parent="fsm" node_paths=PackedStringArray("robot", "heat_wave")]
+script = ExtResource("9_7bqo2")
+robot = NodePath("../..")
+heat_wave = NodePath("../../HeatWave")
 
 [connection signal="health_depleated" from="HealthComponent" to="." method="_on_health_component_health_depleated"]
 [connection signal="received_damage" from="HurtBoxComponent" to="." method="_on_hurt_box_component_received_damage"]

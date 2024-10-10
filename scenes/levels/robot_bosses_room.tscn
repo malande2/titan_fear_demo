@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dq2deqs3yync5"]
+[gd_scene load_steps=15 format=3 uid="uid://dq2deqs3yync5"]
 
 [ext_resource type="Script" path="res://scenes/levels/robot_bosses_room.gd" id="1_73h2u"]
 [ext_resource type="PackedScene" uid="uid://ljoor4cojxck" path="res://scenes/player/player.tscn" id="1_sbl4c"]
@@ -35,6 +35,12 @@ agent_radius = 46.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w1ys3"]
 radius = 198.283
+
+[sub_resource type="Curve2D" id="Curve2D_vlyn4"]
+_data = {
+"points": PackedVector2Array(-0.543686, 415.549, 0.543686, -415.549, 384, 800, -0.627319, -0.302139, 0.627319, 0.302139, 800, 384, -0.00954926, -416.181, 0.00954926, 416.181, 1216, 800, 0, 0, 0, 0, 800, 1216, -1.14264, 416.683, 1.14264, -416.683, 384, 800)
+}
+point_count = 5
 
 [node name="RobotBossesRoom" type="Node"]
 script = ExtResource("1_73h2u")
@@ -126,10 +132,20 @@ position = Vector2(478, 1112)
 rotation = -0.785398
 trigger_area = NodePath("../../TriggerArea")
 
-[node name="RobotBossHealer" parent="CircleNavigationRegion" node_paths=PackedStringArray("trigger_area") groups=["robot_bosses"] instance=ExtResource("5_2so51")]
-position = Vector2(1104, 1112)
-rotation = -2.35619
-trigger_area = NodePath("../../TriggerArea")
+[node name="Path2D" type="Path2D" parent="."]
+position = Vector2(123.077, 123.077)
+scale = Vector2(0.846154, 0.846154)
+curve = SubResource("Curve2D_vlyn4")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2(1101.11, 1099.67)
+rotation = 2.38423
+progress = 1650.19
+
+[node name="RobotBossHealer" parent="Path2D/PathFollow2D" node_paths=PackedStringArray("trigger_area", "path_follow") groups=["robot_bosses"] instance=ExtResource("5_2so51")]
+scale = Vector2(1.18182, 1.18182)
+trigger_area = NodePath("../../../TriggerArea")
+path_follow = NodePath("..")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
